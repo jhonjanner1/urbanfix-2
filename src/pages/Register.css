@@ -1,0 +1,49 @@
+.register-container {
+  background: #fff;
+  padding: 35px;
+  border-radius: 15px;
+  text-align: center;
+  box-shadow: 0px 4px 12px rgba(0,0,0,0.25);
+  animation: slideUp 0.7s ease;
+}
+
+.register-container h2 {
+  color: #FFD600;
+  margin-bottom: 20px;
+}
+
+.register-container input {
+  padding: 10px;
+  margin: 8px 0;
+  width: 220px;
+  border: 2px solid #333;
+  border-radius: 6px;
+  outline: none;
+  transition: border 0.3s;
+}
+
+.register-container input:focus {
+  border: 2px solid #FFD600;
+}
+
+.register-container button {
+  margin-top: 10px;
+  padding: 10px 15px;
+  background: #000;
+  color: #FFD600;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: transform 0.2s, background 0.3s;
+}
+
+.register-container button:hover {
+  background: #333;
+  transform: scale(1.05);
+}
+
+/* Animación */
+@keyframes slideUp {
+  from { transform: translateY(30px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}

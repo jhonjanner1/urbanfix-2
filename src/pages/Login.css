@@ -1,0 +1,251 @@
+/* ====== LOGIN FULLSCREEN CON FONDO ANIMADO ====== */
+.login-container {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  overflow: hidden;
+  position: relative;
+
+  /* Fondo degradado animado */
+  background: linear-gradient(270deg, #1a1a1a, #2575fc, #FFD600, #000);
+  background-size: 800% 800%;
+  animation: gradientShift 12s ease infinite;
+}
+
+/* ====== CARD LOGIN ====== */
+.login-card {
+  background: rgba(0,0,0,0.85);
+  padding: 50px 35px;
+  border-radius: 15px;
+  box-shadow: 0 0 30px rgba(255, 214, 0, 0.5);
+  width: 400px;
+  max-width: 90%;
+  text-align: center;
+  animation: fadeIn 1s ease forwards;
+  z-index: 2;
+  position: relative;
+}
+
+.login-card h2 {
+  color: #FFD600;
+  margin-bottom: 30px;
+  text-shadow: 2px 2px 6px #000;
+  font-size: 28px;
+  font-weight: 600;
+}
+
+/* ====== INPUTS ====== */
+.input-group {
+  margin-bottom: 20px;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 14px 15px;
+  border-radius: 10px;
+  border: 1px solid #FFD600;
+  background: #111;
+  color: #FFD600;
+  outline: none;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+.input-group input::placeholder {
+  color: #FFD600aa;
+}
+
+.input-group input:focus {
+  box-shadow: 0 0 10px #FFD600bb;
+  border-color: #FFD600;
+}
+
+/* ====== BOTÓN LOGIN ====== */
+.login-button {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 10px;
+  background: #FFD600;
+  color: #000;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 10px;
+}
+
+.login-button:hover {
+  background: #fff200;
+  box-shadow: 0 0 20px #FFD600bb;
+  transform: scale(1.05);
+}
+
+/* ====== ENLACE DE REGISTRO ====== */
+.register-link {
+  margin: 20px 0;
+  color: #fff;
+}
+
+.register-link p {
+  margin: 0;
+  font-size: 14px;
+}
+
+.register-link span {
+  color: #FFD600;
+  cursor: pointer;
+  font-weight: 600;
+  text-decoration: underline;
+  transition: all 0.2s ease;
+}
+
+.register-link span:hover {
+  color: #fff200;
+  text-shadow: 0 0 8px #FFD600;
+}
+
+/* ====== FOOTER LOGIN ====== */
+.login-footer {
+  margin-top: 30px;
+  padding-top: 15px;
+  border-top: 1px solid #333;
+  color: #aaa;
+  font-size: 12px;
+}
+
+/* ====== NAVBAR ====== */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: #000;
+  color: #FFD600;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 40px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.6);
+  z-index: 1000;
+  animation: slideDown 0.8s ease forwards;
+}
+
+.logo span {
+  font-size: 22px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.logo span:hover {
+  color: #fff;
+  text-shadow: 0px 0px 10px #FFD600;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+.nav-links button {
+  background: transparent;
+  border: 2px solid #FFD600;
+  color: #FFD600;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease, transform 0.2s ease;
+  font-weight: 500;
+}
+
+.nav-links button:hover {
+  background: #FFD600;
+  color: #000;
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 0 10px #FFD600aa;
+}
+
+/* ====== HAMBURGER MENU ====== */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  gap: 5px;
+}
+
+.hamburger span {
+  width: 25px;
+  height: 3px;
+  background: #FFD600;
+  border-radius: 3px;
+  transition: all 0.3s ease;
+}
+
+.hamburger.active span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+.hamburger.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(6px, -6px);
+}
+
+/* ====== MEDIA QUERIES ====== */
+@media (max-width: 768px) {
+  .nav-links {
+    position: absolute;
+    top: 70px;
+    left: 0;
+    right: 0;
+    background: #111;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+  }
+
+  .nav-links.open {
+    max-height: 300px;
+  }
+
+  .nav-links button {
+    width: 80%;
+    margin: 5px 0;
+    padding: 12px;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+  
+  .login-card {
+    padding: 40px 25px;
+  }
+}
+
+/* ====== ANIMACIONES ====== */
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideDown {
+  from { transform: translateY(-100%); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
