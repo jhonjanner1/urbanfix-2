@@ -1,12 +1,14 @@
-import React, { useState } from "react";
 import "./Register.css";
+import React, { useState } from "react";
 
-function Register() {
+function Register({ goLogin }) {
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    password: "",
-    confirmPassword: ""
+    nombre: "",
+    apellido: "",
+    correo: "",
+    documento: "",
+    contrasena: "",
+    confirmContrasena: ""
   });
 
   const handleChange = (e) => {
@@ -16,13 +18,38 @@ function Register() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (formData.password !== formData.confirmPassword) {
+
+    if (formData.contrasena !== formData.confirmContrasena) {
       alert("Las contraseñas no coinciden");
       return;
     }
-    alert(`Registro exitoso. Bienvenido ${formData.name}!`);
+
+    try {
+      const res = await fetch("http://localhost:4000/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          nombre: formData.nombre,
+          apellido: formData.apellido,
+          correo: formData.correo,
+          documento: formData.documento,
+          contrasena: formData.contrasena
+        })
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        alert(`Registro exitoso. Bienvenido ${data.nombre}!`);
+        goLogin(); // Redirige automáticamente a Login.js
+      } else {
+        alert(`Error: ${data.error}`);
+      }
+    } catch (error) {
+      alert("Error al conectar con el servidor");
+    }
   };
 
   return (
@@ -49,9 +76,19 @@ function Register() {
           <div className="input-group">
             <input
               type="text"
-              name="name"
-              placeholder="Nombre completo"
-              value={formData.name}
+              name="nombre"
+              placeholder="Nombre"
+              value={formData.nombre}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="input-group">
+            <input
+              type="text"
+              name="apellido"
+              placeholder="Apellido"
+              value={formData.apellido}
               onChange={handleChange}
               required
             />
@@ -59,9 +96,19 @@ function Register() {
           <div className="input-group">
             <input
               type="email"
-              name="email"
+              name="correo"
               placeholder="Correo electrónico"
-              value={formData.email}
+              value={formData.correo}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="input-group">
+            <input
+              type="text"
+              name="documento"
+              placeholder="Documento"
+              value={formData.documento}
               onChange={handleChange}
               required
             />
@@ -69,9 +116,9 @@ function Register() {
           <div className="input-group">
             <input
               type="password"
-              name="password"
+              name="contrasena"
               placeholder="Contraseña"
-              value={formData.password}
+              value={formData.contrasena}
               onChange={handleChange}
               required
             />
@@ -79,9 +126,9 @@ function Register() {
           <div className="input-group">
             <input
               type="password"
-              name="confirmPassword"
+              name="confirmContrasena"
               placeholder="Confirmar contraseña"
-              value={formData.confirmPassword}
+              value={formData.confirmContrasena}
               onChange={handleChange}
               required
             />

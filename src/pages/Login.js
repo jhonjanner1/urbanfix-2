@@ -1,28 +1,49 @@
 import React, { useState } from "react";
 import "./Login.css";
 
-function Login({ onLogin, onNavigate }) {
+function Login({ onNavigate }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (email.trim() && password.trim()) {
-      alert(`Bienvenido, ${email}!`);
-      if (onLogin) onLogin();
-    } else {
+
+    if (!email.trim() || !password.trim()) {
       alert("Por favor completa todos los campos.");
+      return;
+    }
+
+    try {
+      const res = await fetch("http://localhost:4000/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ correo: email, contrasena: password }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        // Login exitoso
+        alert(`Bienvenido, ${data.nombre}!`);
+        
+        // Redirigir según rol
+        if (data.id_rol === 2) {
+          onNavigate("ciudadano"); // ciudadano
+        } else {
+          onNavigate("home"); // otros roles
+        }
+      } else {
+        // Error devuelto por el backend (usuario no encontrado o contraseña incorrecta)
+        alert(`Error: ${data.error}`);
+      }
+    } catch (error) {
+      console.error(error);
+      alert("Error al conectar con el servidor");
     }
   };
 
   const handleNavigation = (page) => {
-    if (onNavigate) {
-      onNavigate(page);
-    } else {
-      console.log(`Navegando a: ${page}`);
-      // Aquí podrías implementar react-router o tu sistema de navegación
-      alert(`Navegando a: ${page}`);
-    }
+    if (onNavigate) onNavigate(page);
   };
 
   return (
@@ -30,8 +51,8 @@ function Login({ onLogin, onNavigate }) {
       <nav className="navbar">
         <div className="logo"><span>UrbanFix</span></div>
         <ul className="nav-links">
-          <li><button onClick={() => handleNavigation("inicio")}>Inicio</button></li>
-          <li><button onClick={() => handleNavigation("registro")}>Registrarse</button></li>
+          <li><button onClick={() => handleNavigation("home")}>Inicio</button></li>
+          <li><button onClick={() => handleNavigation("register")}>Registrarse</button></li>
         </ul>
         <div className="hamburger" onClick={() => {
           document.querySelector(".nav-links").classList.toggle("open");
@@ -65,12 +86,10 @@ function Login({ onLogin, onNavigate }) {
             />
           </div>
           <button type="submit" className="login-button">Ingresar</button>
-          
           <div className="register-link">
-            <p>¿No tienes una cuenta? <span onClick={() => handleNavigation("registro")}>Regístrate ahora</span></p>
+            <p>¿No tienes una cuenta? <span onClick={() => handleNavigation("register")}>Regístrate ahora</span></p>
           </div>
         </form>
-        
         <div className="login-footer">
           <p>© 2023 UrbanFix. Todos los derechos reservados.</p>
         </div>
